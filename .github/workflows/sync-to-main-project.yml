@@ -8,7 +8,7 @@ on:
     types: [created]
 
 env:
-  MAIN_PROJECT_NUMBER: 4
+  MAIN_PROJECT_NUMBER: 5
   MAIN_PROJECT_OWNER: zahrasiska
 
 jobs:
