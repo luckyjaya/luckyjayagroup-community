@@ -39,10 +39,24 @@ Repositori ini adalah tempat bagi komunitas pengguna untuk:
 
 ## 📚 Dokumentasi
 
+### � Panduan Lengkap
+- 🗂️ [**Indeks Dokumentasi**](docs/indeks-dokumentasi.md) - **Portal utama semua dokumentasi**
+
+### �🚀 Panduan Utama
 - 📖 [Panduan Kontribusi](docs/panduan-kontribusi.md)
 - 🐛 [Cara Melaporkan Bug](docs/panduan-pelaporan-bug.md)
 - 💡 [Cara Request Fitur](docs/panduan-request-fitur.md)
 - ❓ [FAQ](docs/faq.md)
+
+### 📋 Panduan Teknis
+- ⚙️ [Panduan Instalasi](docs/panduan-instalasi.md)
+- 🔧 [Troubleshooting](docs/troubleshooting.md)
+- ✨ [Best Practices](docs/best-practices.md)
+- 📅 [Changelog](docs/changelog.md)
+
+### 🎯 Informasi Strategis
+- 🗺️ [Roadmap](docs/roadmap.md)
+- 👨‍💻 [Panduan Developer](docs/panduan-developer.md)
 
 ---
 
