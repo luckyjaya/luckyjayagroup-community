@@ -24,7 +24,7 @@ jobs:
           github-token: ${{ secrets.MAIN_PROJECT_TOKEN }}
           script: |
             const issue = context.payload.issue;
-            const action = github.event.action;
+            const action = context.payload.action || 'opened';
             
             // Add prefix untuk community issues
             const communityLabel = '🌐 community';
