@@ -1,0 +1,19 @@
+# 🤖 Auto-Add Issues to Project Board Workflow
+
+name: "Auto-Add to Project Board"
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add issue to project board
+        uses: actions/add-to-project@v1.0.1
+        with:
+          project-url: https://github.com/orgs/luckyjaya/projects/5
+          github-token: ${{ secrets.MAIN_PROJECT_TOKEN }}
+          labeled: bug,enhancement
+          label-operator: OR
