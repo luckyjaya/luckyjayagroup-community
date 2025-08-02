@@ -8,8 +8,8 @@ on:
     types: [created]
 
 env:
-  MAIN_PROJECT_NUMBER: 4
-  MAIN_PROJECT_OWNER: zahrasiska
+  MAIN_PROJECT_NUMBER: 5
+  MAIN_PROJECT_OWNER: luckyjaya
 
 jobs:
   sync-to-main-project:
@@ -44,7 +44,7 @@ jobs:
               // 2. Get main project ID
               const projectQuery = `
                 query($login: String!, $number: Int!) {
-                  user(login: $login) {
+                  organization(login: $login) {
                     projectV2(number: $number) {
                       id
                       title
@@ -58,7 +58,7 @@ jobs:
                 number: parseInt(process.env.MAIN_PROJECT_NUMBER)
               });
 
-              const projectId = projectResult.user.projectV2.id;
+              const projectId = projectResult.organization.projectV2.id;
               
               // 3. Add issue to main project board (hanya untuk issue baru)
               if (action === 'opened') {
