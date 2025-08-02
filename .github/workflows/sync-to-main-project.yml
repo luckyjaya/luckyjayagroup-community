@@ -62,6 +62,17 @@ jobs:
               
               // 3. Add issue to main project board (hanya untuk issue baru)
               console.log('🔍 Action check:', action, 'Expected: opened');
+              console.log('📋 Issue details:', {
+                number: issue.number,
+                node_id: issue.node_id,
+                title: issue.title
+              });
+              console.log('📊 Project details:', {
+                projectId: projectId,
+                owner: process.env.MAIN_PROJECT_OWNER,
+                number: process.env.MAIN_PROJECT_NUMBER
+              });
+              
               if (action === 'opened') {
                 console.log('✅ Adding to project board...');
                 const addItemMutation = `
@@ -77,12 +88,19 @@ jobs:
                   }
                 `;
 
-                const mutationResult = await github.graphql(addItemMutation, {
-                  projectId: projectId,
-                  contentId: issue.node_id
-                });
-                
-                console.log('🎯 Mutation result:', JSON.stringify(mutationResult, null, 2));
+                try {
+                  const mutationResult = await github.graphql(addItemMutation, {
+                    projectId: projectId,
+                    contentId: issue.node_id
+                  });
+                  
+                  console.log('🎯 Mutation result:', JSON.stringify(mutationResult, null, 2));
+                  console.log('✅ Item added successfully!');
+                } catch (mutationError) {
+                  console.log('❌ Mutation error:', mutationError.message);
+                  console.log('📋 Full mutation error:', JSON.stringify(mutationError, null, 2));
+                  throw mutationError; // Re-throw untuk error handling
+                }
               } else {
                 console.log('⏭️ Skipping project board add for action:', action);
               }
