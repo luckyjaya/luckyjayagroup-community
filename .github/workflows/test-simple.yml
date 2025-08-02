@@ -1,0 +1,61 @@
+name: "🧪 Simple Test Workflow"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Project Board Access
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.MAIN_PROJECT_TOKEN }}
+          script: |
+            console.log('🔍 Testing project board access...');
+            
+            // Test GraphQL query
+            const projectQuery = `
+              query($login: String!, $number: Int!) {
+                organization(login: $login) {
+                  projectV2(number: $number) {
+                    id
+                    title
+                  }
+                }
+              }
+            `;
+            
+            try {
+              const projectResult = await github.graphql(projectQuery, {
+                login: 'luckyjaya',
+                number: 5
+              });
+              
+              console.log('✅ Project query success:', JSON.stringify(projectResult, null, 2));
+              
+              // Test add item (issue #28)
+              const addItemMutation = `
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: {
+                    projectId: $projectId
+                    contentId: $contentId
+                  }) {
+                    item {
+                      id
+                    }
+                  }
+                }
+              `;
+              
+              const mutationResult = await github.graphql(addItemMutation, {
+                projectId: projectResult.organization.projectV2.id,
+                contentId: 'I_kwDOPWXr_c7D2UOF'  // Issue #28
+              });
+              
+              console.log('✅ Mutation success:', JSON.stringify(mutationResult, null, 2));
+              
+            } catch (error) {
+              console.log('❌ Error:', error.message);
+              console.log('📋 Full error:', JSON.stringify(error, null, 2));
+            }
