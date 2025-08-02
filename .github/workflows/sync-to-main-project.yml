@@ -61,7 +61,9 @@ jobs:
               const projectId = projectResult.organization.projectV2.id;
               
               // 3. Add issue to main project board (hanya untuk issue baru)
+              console.log('🔍 Action check:', action, 'Expected: opened');
               if (action === 'opened') {
+                console.log('✅ Adding to project board...');
                 const addItemMutation = `
                   mutation($projectId: ID!, $contentId: ID!) {
                     addProjectV2ItemById(input: {
@@ -75,19 +77,26 @@ jobs:
                   }
                 `;
 
-                await github.graphql(addItemMutation, {
+                const mutationResult = await github.graphql(addItemMutation, {
                   projectId: projectId,
                   contentId: issue.node_id
                 });
+                
+                console.log('🎯 Mutation result:', JSON.stringify(mutationResult, null, 2));
+              } else {
+                console.log('⏭️ Skipping project board add for action:', action);
               }
               
-              return {
+              const result = {
                 success: true,
                 action: action,
                 issue_number: issue.number,
                 repository: context.repo.owner + '/' + context.repo.repo,
                 project_id: projectId
               };
+              
+              console.log('🎯 Sync Result:', JSON.stringify(result, null, 2));
+              return result;
               
             } catch (error) {
               // Don't fail the workflow, just log the error
