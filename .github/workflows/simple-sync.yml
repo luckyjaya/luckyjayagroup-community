@@ -1,0 +1,24 @@
+name: "🚀 Simple Project Sync"
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  add-to-board:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to Project Board
+        run: |
+          gh api graphql -f query='
+            mutation {
+              addProjectV2ItemById(input: {
+                projectId: "PVT_kwDODV10ec4A_c5a"
+                contentId: "${{ github.event.issue.node_id }}"
+              }) {
+                item { id }
+              }
+            }
+          '
+        env:
+          GH_TOKEN: ${{ secrets.MAIN_PROJECT_TOKEN }}
